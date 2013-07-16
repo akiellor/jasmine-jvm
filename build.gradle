@@ -1,0 +1,14 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.javafunk.funk:funk-core:0.1.21'
+  compile 'org.dynjs:dynjs:0.1.1'
+
+  testCompile 'junit:junit-dep:4.11'
+  testCompile 'org.mockito:mockito-all:1.9.5'
+}
