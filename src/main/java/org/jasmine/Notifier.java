@@ -5,5 +5,7 @@ public interface Notifier {
 
     void pass(It.Identifier identifier);
 
+    void fail(It.Identifier identifier);
+
     void finished();
 }
