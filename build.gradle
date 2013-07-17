@@ -14,7 +14,23 @@ dependencies {
   testCompile 'org.mockito:mockito-all:1.9.5'
 }
 
-task(binscripts) {
+sourceSets {
+  main {
+    resources {
+      srcDir  'src/main/javascript'
+    }
+  }
+
+  test {
+    resources {
+      srcDir  'src/test/javascript'
+    }
+  }
+}
+
+
+task(binscripts) << {
+    buildDir.mkdirs();
     def dynjsBinScript = file("$buildDir/dynjs")
     dynjsBinScript.setExecutable(true, false)
     dynjsBinScript.write("""\
