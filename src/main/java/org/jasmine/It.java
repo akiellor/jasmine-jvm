@@ -3,7 +3,7 @@ package org.jasmine;
 public class It {
     public static class Identifier{
         private final int describeIndex;
-        private final double itIndex;
+        private final int itIndex;
 
         public Identifier(int describeIndex, int itIndex) {
             this.describeIndex = describeIndex;
@@ -31,6 +31,11 @@ public class It {
             temp = Double.doubleToLongBits(itIndex);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "It$Identifier[" + describeIndex + ", " + itIndex + "]";
         }
     }
 
