@@ -20,8 +20,6 @@ public class RuntimeTest {
     @Mock
     Notifier notifier;
 
-    @Rule public Timeout timeout = new Timeout(2000);
-
     @Test
     public void shouldExecuteTests() {
         Runtime runtime = new Runtime(newArrayList("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js"));
@@ -50,7 +48,7 @@ public class RuntimeTest {
     @Test
     @Ignore
     public void shouldRunTestsFast() {
-        Runtime runtime = new Runtime(newArrayList(repeat(newArrayList("org/jasmine/fooSpec.js"), 1000)));
+        Runtime runtime = new Runtime(newArrayList(repeat(newArrayList("org/jasmine/fooSpec.js"), 1000000)));
 
         runtime.execute(notifier);
     }
