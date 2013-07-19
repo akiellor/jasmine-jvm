@@ -6,11 +6,15 @@ import org.dynjs.runtime.*;
 import java.util.List;
 import java.util.Set;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newTreeSet;
+
 public class Runtime {
     private final List<String> specs;
 
     public Runtime(List<String> specs) {
-        this.specs = specs;
+        this.specs = newArrayList(newTreeSet(specs));
     }
 
     public void execute(Notifier notifier) {
