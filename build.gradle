@@ -19,9 +19,9 @@ repositories {
 }
 
 dependencies {
-  compile 'org.javafunk.funk:funk-core:0.1.21'
   compile 'org.dynjs:dynjs:0.1.1'
 
+  testCompile 'org.javafunk.funk:funk:0.1.21'
   testCompile 'junit:junit-dep:4.11'
   testCompile 'org.easytesting:fest:1.0.16'
   testCompile 'org.mockito:mockito-all:1.9.5'
