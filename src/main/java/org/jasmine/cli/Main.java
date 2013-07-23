@@ -18,7 +18,7 @@ public class Main {
             }
 
             @Override
-            public void fail(It.Identifier identifier) {
+            public void fail(It.Identifier identifier, It.Stack stack) {
                 System.out.print("F");
             }
 

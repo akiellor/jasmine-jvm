@@ -11,11 +11,13 @@ exports.reporter = function(notifier){
         reportSpecStarting: function(spec){
         },
         reportSpecResults: function(spec){
-            var identifier = new org.jasmine.It$Identifier(spec.suite.id, spec.id)
+            var identifier = org.jasmine.It.identifier(spec.suite.id, spec.id);
             if(spec.results().passed()){
-                notifier.pass(identifier)
+                notifier.pass(identifier);
             }else{
-                notifier.fail(identifier)
+                var result = spec.results().getItems()[0];
+                var stack = org.jasmine.It.stack(result.trace.stack);
+                notifier.fail(identifier, stack);
             }
         },
         log: function(str){

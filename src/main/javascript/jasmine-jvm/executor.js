@@ -22,9 +22,9 @@ global.clearTimeout = function(id){
 
 global.clearInterval = global.clearTimeout
 
-var jasmine = require("jasmine-1.3.1/jasmine").jasmine;
-for(var key in jasmine){
-  global[key] = jasmine[key];
+var jasmineLib = require("jasmine-1.3.1/jasmine");
+for(var key in jasmineLib){
+  global[key] = jasmineLib[key];
 }
 
 var notifierReporter = require("jasmine-jvm/reporter").reporter;
