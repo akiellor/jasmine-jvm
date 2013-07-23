@@ -16,13 +16,15 @@ apply plugin: 'shadow'
 
 repositories {
   maven {
-      url 'http://repository-projectodd.forge.cloudbees.com/snapshot'
+      url './repository'
   }
   mavenCentral()
 }
 
 dependencies {
   compile 'org.dynjs:dynjs:0.1.2-SNAPSHOT'
+  compile 'org.projectodd.rephract:rephract:1.0.0'
+
   compile 'com.google.guava:guava:11.0.2'
 
   testCompile 'org.javafunk.funk:funk-core:0.1.22'
