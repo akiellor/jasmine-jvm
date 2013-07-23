@@ -20,8 +20,9 @@ repositories {
 
 dependencies {
   compile 'org.dynjs:dynjs:0.1.1'
+  compile 'com.google.guava:guava:11.0.2'
 
-  testCompile 'org.javafunk.funk:funk:0.1.21'
+  testCompile 'org.javafunk.funk:funk-core:0.1.22'
   testCompile 'junit:junit-dep:4.11'
   testCompile 'org.easytesting:fest:1.0.16'
   testCompile 'org.mockito:mockito-all:1.9.5'
