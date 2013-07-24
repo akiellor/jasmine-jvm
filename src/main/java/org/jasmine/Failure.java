@@ -13,6 +13,10 @@ public class Failure {
         this.stack = stack;
     }
 
+    public String getStackString() {
+        return stack.stack;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,7 +39,7 @@ public class Failure {
 
     @Override
     public String toString() {
-        return "Failure[" + it + "]";
+        return "Failure[" + it + ", " + stack + "]";
     }
 
     public static class Stack {
