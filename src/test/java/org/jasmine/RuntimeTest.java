@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.jasmine.Failure.Stack.stack;
+import static org.jasmine.Failure.failure;
 import static org.jasmine.Identifier.identifier;
 import static org.javafunk.funk.Lazily.repeat;
 import static org.javafunk.funk.Literals.setWith;
@@ -48,8 +49,7 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).fail(identifier(0, 0),
-                setWith(Failure.failure(identifier(0, 0), stack(expectedStack))));
+        inOrder.verify(notifier).fail(identifier(0, 0), setWith(failure(identifier(0, 0), stack(expectedStack))));
         inOrder.verify(notifier).pass(identifier(1, 1));
         inOrder.verify(notifier).finished();
     }
