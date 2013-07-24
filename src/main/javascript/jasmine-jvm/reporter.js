@@ -11,7 +11,7 @@ exports.reporter = function(notifier){
         reportSpecStarting: function(spec){
         },
         reportSpecResults: function(spec){
-            var identifier = org.jasmine.It.identifier(spec.suite.id, spec.id);
+            var identifier = org.jasmine.Identifier.identifier(spec.suite.id, spec.id);
             if(spec.results().passed()){
                 notifier.pass(identifier);
             }else{

@@ -9,12 +9,11 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.jasmine.Failure.Stack.stack;
+import static org.jasmine.Identifier.identifier;
 import static org.javafunk.funk.Lazily.repeat;
-import static org.javafunk.funk.Literals.listWith;
 import static org.javafunk.funk.Literals.setWith;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RuntimeTest {
@@ -49,9 +48,9 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).fail(It.identifier(0, 0),
-                setWith(Failure.failure(It.identifier(0, 0), Failure.Stack.stack(expectedStack))));
-        inOrder.verify(notifier).pass(It.identifier(1, 1));
+        inOrder.verify(notifier).fail(identifier(0, 0),
+                setWith(Failure.failure(identifier(0, 0), stack(expectedStack))));
+        inOrder.verify(notifier).pass(identifier(1, 1));
         inOrder.verify(notifier).finished();
     }
 
@@ -63,7 +62,7 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).pass(any(It.Identifier.class));
+        inOrder.verify(notifier).pass(any(Identifier.class));
         inOrder.verify(notifier).finished();
     }
 

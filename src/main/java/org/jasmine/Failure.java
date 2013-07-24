@@ -1,14 +1,14 @@
 package org.jasmine;
 
 public class Failure {
-    public static Failure failure(It.Identifier it, Stack stack){
+    public static Failure failure(Identifier it, Stack stack){
         return new Failure(it, stack);
     }
 
-    private final It.Identifier it;
+    private final Identifier it;
     private final Stack stack;
 
-    public Failure(It.Identifier it, Stack stack) {
+    public Failure(Identifier it, Stack stack) {
         this.it = it;
         this.stack = stack;
     }
@@ -68,7 +68,7 @@ public class Failure {
 
         @Override
         public String toString() {
-            return "It$Stack[" + stack + "]";
+            return "Stack[" + stack + "]";
         }
     }
 }

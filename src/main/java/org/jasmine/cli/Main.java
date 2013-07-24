@@ -1,7 +1,7 @@
 package org.jasmine.cli;
 
 import org.jasmine.Failure;
-import org.jasmine.It;
+import org.jasmine.Identifier;
 import org.jasmine.Notifier;
 
 import java.util.Arrays;
@@ -15,12 +15,12 @@ public class Main {
             }
 
             @Override
-            public void pass(It.Identifier identifier) {
+            public void pass(Identifier identifier) {
                 System.out.print(".");
             }
 
             @Override
-            public void fail(It.Identifier identifier, Set<Failure> failures) {
+            public void fail(Identifier identifier, Set<Failure> failures) {
                 System.out.print("F");
             }
 
