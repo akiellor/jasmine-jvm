@@ -15,12 +15,12 @@ public class Main {
             }
 
             @Override
-            public void pass(Identifier identifier) {
+            public void pass(Identifier identifier, String description) {
                 System.out.print(".");
             }
 
             @Override
-            public void fail(Identifier identifier, Set<Failure> failures) {
+            public void fail(Identifier identifier, String description, Set<Failure> failures) {
                 System.out.print("F");
             }
 

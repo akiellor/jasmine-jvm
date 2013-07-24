@@ -15,6 +15,7 @@ import static org.jasmine.Identifier.identifier;
 import static org.javafunk.funk.Lazily.repeat;
 import static org.javafunk.funk.Literals.setWith;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RuntimeTest {
@@ -49,8 +50,9 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).fail(identifier(0, 0), setWith(failure(identifier(0, 0), stack(expectedStack))));
-        inOrder.verify(notifier).pass(identifier(1, 1));
+        inOrder.verify(notifier).fail(
+                identifier(0, 0), "should be failing", setWith(failure(identifier(0, 0), stack(expectedStack))));
+        inOrder.verify(notifier).pass(identifier(1, 1), "should be foo");
         inOrder.verify(notifier).finished();
     }
 
@@ -62,7 +64,7 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).pass(any(Identifier.class));
+        inOrder.verify(notifier).pass(any(Identifier.class), anyString());
         inOrder.verify(notifier).finished();
     }
 

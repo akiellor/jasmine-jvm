@@ -13,7 +13,7 @@ exports.reporter = function(notifier){
         reportSpecResults: function(spec){
             var identifier = org.jasmine.Identifier.identifier(spec.suite.id, spec.id);
             if(spec.results().passed()){
-                notifier.pass(identifier);
+                notifier.pass(identifier, spec.description);
             }else{
                 var failures = spec.results().getItems().map(function(item){
                     var stack = org.jasmine.Failure$Stack.stack(item.trace.stack);
@@ -22,7 +22,7 @@ exports.reporter = function(notifier){
 
                 var builder = com.google.common.collect.ImmutableSet.builder();
                 failures.forEach(function(failure) { builder.add(failure); });
-                notifier.fail(identifier, builder.build());
+                notifier.fail(identifier, spec.description, builder.build());
             }
         },
         log: function(str){
