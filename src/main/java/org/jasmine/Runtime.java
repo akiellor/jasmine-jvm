@@ -5,6 +5,7 @@ import org.dynjs.runtime.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -34,6 +35,6 @@ public class Runtime {
         DynJS dynjs = new DynJS(config);
 
         Executor executor = (Executor) dynjs.evaluate("require('jasmine-jvm/executor').executor");
-        executor.execute(specs, notifier);
+        executor.execute(specs, Executors.newScheduledThreadPool(2), notifier);
     }
 }

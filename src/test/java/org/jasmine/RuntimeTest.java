@@ -41,8 +41,8 @@ public class RuntimeTest {
                 "  at <anonymous> (<eval>:2049)\n" +
                 "  at <anonymous> (<eval>:2143)\n" +
                 "  at <anonymous> (<eval>:802)\n" +
-                "  at Object.execute (<eval>:40)\n" +
-                "  at <eval> (<eval>:32)\n";
+                "  at Object.execute (<eval>:38)\n" +
+                "  at <eval> (<eval>:1)\n";
 
         Runtime runtime = new Runtime(newArrayList("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js"));
 
