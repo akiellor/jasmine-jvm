@@ -12,10 +12,4 @@ public class ItTest {
         assertThat(It.identifier(0, 1)).isNotEqualTo(It.identifier(1, 1));
         assertThat(It.identifier(1, 0)).isNotEqualTo(It.identifier(1, 1));
     }
-
-    @Test
-    public void shouldBeEqualBasedOnStackElements(){
-        assertThat(It.stack("Error")).isEqualTo(It.stack("Error"));
-        assertThat(It.stack("Error")).isNotEqualTo(It.stack("TypeError"));
-    }
 }

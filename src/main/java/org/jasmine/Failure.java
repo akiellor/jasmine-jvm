@@ -1,14 +1,14 @@
 package org.jasmine;
 
 public class Failure {
-    public static Failure failure(It.Identifier it, It.Stack stack){
+    public static Failure failure(It.Identifier it, Stack stack){
         return new Failure(it, stack);
     }
 
     private final It.Identifier it;
-    private final It.Stack stack;
+    private final Stack stack;
 
-    public Failure(It.Identifier it, It.Stack stack) {
+    public Failure(It.Identifier it, Stack stack) {
         this.it = it;
         this.stack = stack;
     }
@@ -36,5 +36,39 @@ public class Failure {
     @Override
     public String toString() {
         return "Failure[" + it + "]";
+    }
+
+    public static class Stack {
+        public static Stack stack(String stack) {
+            return new Stack(stack);
+        }
+
+        private final String stack;
+
+        public Stack(String stack) {
+            this.stack = stack;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Stack stack1 = (Stack) o;
+
+            if (stack != null ? !stack.equals(stack1.stack) : stack1.stack != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return stack != null ? stack.hashCode() : 0;
+        }
+
+        @Override
+        public String toString() {
+            return "It$Stack[" + stack + "]";
+        }
     }
 }

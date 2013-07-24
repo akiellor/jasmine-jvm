@@ -1,24 +1,16 @@
 package org.jasmine;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.debugging.MockitoDebuggerImpl;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.javafunk.funk.Lazily.repeat;
-import static org.javafunk.funk.Literals.listOf;
 import static org.javafunk.funk.Literals.listWith;
 import static org.javafunk.funk.Literals.setWith;
 import static org.mockito.Matchers.any;
@@ -58,7 +50,7 @@ public class RuntimeTest {
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
         inOrder.verify(notifier).fail(It.identifier(0, 0),
-                setWith(Failure.failure(It.identifier(0, 0), It.stack(expectedStack))));
+                setWith(Failure.failure(It.identifier(0, 0), Failure.Stack.stack(expectedStack))));
         inOrder.verify(notifier).pass(It.identifier(1, 1));
         inOrder.verify(notifier).finished();
     }

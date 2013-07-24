@@ -16,7 +16,7 @@ exports.reporter = function(notifier){
                 notifier.pass(identifier);
             }else{
                 var failures = spec.results().getItems().map(function(item){
-                    var stack = org.jasmine.It.stack(item.trace.stack);
+                    var stack = org.jasmine.Failure$Stack.stack(item.trace.stack);
                     return org.jasmine.Failure.failure(identifier, stack);
                 });
 
