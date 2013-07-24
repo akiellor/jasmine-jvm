@@ -20,6 +20,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.javafunk.funk.Lazily.repeat;
 import static org.javafunk.funk.Literals.listOf;
 import static org.javafunk.funk.Literals.listWith;
+import static org.javafunk.funk.Literals.setWith;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 
@@ -56,7 +57,8 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
-        inOrder.verify(notifier).fail(It.identifier(0, 0), It.stack(expectedStack));
+        inOrder.verify(notifier).fail(It.identifier(0, 0),
+                setWith(Failure.failure(It.identifier(0, 0), It.stack(expectedStack))));
         inOrder.verify(notifier).pass(It.identifier(1, 1));
         inOrder.verify(notifier).finished();
     }

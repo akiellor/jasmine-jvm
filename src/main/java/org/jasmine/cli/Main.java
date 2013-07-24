@@ -1,9 +1,11 @@
 package org.jasmine.cli;
 
+import org.jasmine.Failure;
 import org.jasmine.It;
 import org.jasmine.Notifier;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class Main {
     public static void main(String... args){
@@ -18,7 +20,7 @@ public class Main {
             }
 
             @Override
-            public void fail(It.Identifier identifier, It.Stack stack) {
+            public void fail(It.Identifier identifier, Set<Failure> failures) {
                 System.out.print("F");
             }
 

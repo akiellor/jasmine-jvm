@@ -15,9 +15,14 @@ exports.reporter = function(notifier){
             if(spec.results().passed()){
                 notifier.pass(identifier);
             }else{
-                var result = spec.results().getItems()[0];
-                var stack = org.jasmine.It.stack(result.trace.stack);
-                notifier.fail(identifier, stack);
+                var failures = spec.results().getItems().map(function(item){
+                    var stack = org.jasmine.It.stack(item.trace.stack);
+                    return org.jasmine.Failure.failure(identifier, stack);
+                });
+
+                var builder = com.google.common.collect.ImmutableSet.builder();
+                failures.forEach(function(failure) { builder.add(failure); });
+                notifier.fail(identifier, builder.build());
             }
         },
         log: function(str){
