@@ -41,7 +41,11 @@ public class RuntimeTest {
                 "  at <anonymous> (<eval>:2049)\n" +
                 "  at <anonymous> (<eval>:2143)\n" +
                 "  at <anonymous> (<eval>:802)\n" +
-                "  at Object.execute (<eval>:44)\n" +
+                "  at Object.fn (<eval>:50)\n" +
+                "  at Object.setTimeout (<eval>:10)\n" +
+                "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
+                "  at <anonymous> (<eval>:1730)\n" +
+                "  at Object.execute (<eval>:54)\n" +
                 "  at <eval> (<eval>:1)\n";
 
         Runtime runtime = new Runtime(newArrayList("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js"));

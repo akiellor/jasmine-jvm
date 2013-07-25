@@ -1,14 +1,13 @@
 package org.jasmine;
 
 import org.dynjs.Config;
-import org.dynjs.runtime.*;
+import org.dynjs.runtime.DynJS;
+import org.dynjs.runtime.GlobalObject;
+import org.dynjs.runtime.GlobalObjectFactory;
 
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Executors;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newTreeSet;
 
 public class Runtime {
@@ -35,6 +34,6 @@ public class Runtime {
         DynJS dynjs = new DynJS(config);
 
         Executor executor = (Executor) dynjs.evaluate("require('jasmine-jvm/executor').executor");
-        executor.execute(specs, Executors.newScheduledThreadPool(2), notifier);
+        executor.execute(specs, notifier);
     }
 }

@@ -1,6 +1,7 @@
 exports.executor = new org.jasmine.Executor({
-    execute: function(specs, scheduler, notifier){
+    execute: function(specs, notifier){
         var futures = [];
+        var scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
 
         global.setTimeout = function(fn, delay){
           var id = futures.length
@@ -34,18 +35,23 @@ exports.executor = new org.jasmine.Executor({
         };
 
         var jasmineEnv = jasmine.getEnv();
-        var finished = false;
+
+        jasmineEnv.addReporter(notifierReporter(notifier));
+
+        var done = com.google.common.util.concurrent.SettableFuture.create();
         jasmineEnv.addReporter({
             reportRunnerResults: function(runner){
-                finished = true;
+                done.set(true);
             }
-        })
-        jasmineEnv.addReporter(notifierReporter(notifier))
-        jasmineEnv.execute();
-        while(!finished){
-            java.lang.Thread.sleep(50);
-        }
-        scheduler.awaitTermination(1000, java.util.concurrent.TimeUnit.MILLISECONDS);
+        });
+
+
+        setTimeout(function(){
+            jasmineEnv.execute();
+        }, 0);
+
+
+        done.get();
         scheduler.shutdown();
     }
 });
