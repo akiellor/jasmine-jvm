@@ -34,8 +34,17 @@ exports.executor = new org.jasmine.Executor({
         };
 
         var jasmineEnv = jasmine.getEnv();
+        var finished = false;
+        jasmineEnv.addReporter({
+            reportRunnerResults: function(runner){
+                finished = true;
+            }
+        })
         jasmineEnv.addReporter(notifierReporter(notifier))
         jasmineEnv.execute();
+        while(!finished){
+            java.lang.Thread.sleep(50);
+        }
         scheduler.awaitTermination(1000, java.util.concurrent.TimeUnit.MILLISECONDS);
         scheduler.shutdown();
     }
