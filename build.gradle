@@ -1,5 +1,7 @@
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/groups/public"}
         maven {
             name 'Gradle Shadow'
             url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
@@ -7,12 +9,15 @@ buildscript {
     }
     dependencies {
         classpath 'org.gradle.plugins:shadow:0.7.4'
+        classpath 'com.github.townsfolk:gradle-release:1.2'
     }
 }
 
+apply plugin: 'release'
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'shadow'
+apply plugin: 'maven'
 
 repositories {
   maven {
@@ -20,6 +25,8 @@ repositories {
   }
   mavenCentral()
 }
+
+group = 'com.github.akiellor.jasmine'
 
 dependencies {
   compile 'org.dynjs:dynjs:0.1.2-SNAPSHOT'
@@ -56,4 +63,14 @@ task(binscripts) << {
 
 java -cp ${configurations.compile.files.join(":")} org.dynjs.cli.Main \$@
 """)
+}
+
+createReleaseTag.dependsOn uploadArchives
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+            authentication(userName: System.getProperty("username"), password: System.getProperty("password"))
+        }
+    }
 }
