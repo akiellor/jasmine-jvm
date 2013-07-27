@@ -18,6 +18,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'shadow'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
   maven {
@@ -65,16 +66,68 @@ java -cp ${configurations.compile.files.join(":")} org.dynjs.cli.Main \$@
 """)
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
 release {
     failOnSnapshotDependencies = false
 }
 
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
 createReleaseTag.dependsOn uploadArchives
 
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-            authentication(userName: System.getProperty("username"), password: System.getProperty("password"))
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'jasmine'
+                packaging 'jar'
+                description 'A jasmine runner using the dynjs javascript runtime'
+                url 'http://github.com/akiellor/jasmine-jvm'
+
+                scm {
+                    url 'scm:git@github.com:akiellor/jasmine-jvm.git'
+                    connection 'scm:git@github.com:akiellor/jasmine-jvm.git'
+                    developerConnection 'scm:git@github.com:akiellor/jasmine-jvm.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'akiellor'
+                        name 'Andrew Kiellor'
+                    }
+                }
+            }
         }
     }
 }
