@@ -65,6 +65,10 @@ java -cp ${configurations.compile.files.join(":")} org.dynjs.cli.Main \$@
 """)
 }
 
+release {
+    failOnSnapshotDependencies = false
+}
+
 createReleaseTag.dependsOn uploadArchives
 
 uploadArchives {
