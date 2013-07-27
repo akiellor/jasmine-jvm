@@ -86,19 +86,28 @@ artifacts {
     archives sourcesJar
 }
 
-createReleaseTag.dependsOn uploadArchives
+def isReleaseVersion() {
+    return !version.endsWith("SNAPSHOT")
+}
 
 signing {
+    required { isReleaseVersion() && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
+
+createReleaseTag.dependsOn uploadArchives
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
+            beforeDeployment { MavenDeployment deployment ->
+                signing.signPom(deployment)
+            }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
+                if(project.hasProperty("sonatypeUsername") && project.hasProperty("sonatypePassword")){
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
             }
 
             pom.project {
