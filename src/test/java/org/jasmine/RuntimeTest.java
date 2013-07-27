@@ -1,5 +1,7 @@
 package org.jasmine;
 
+import org.dynjs.runtime.modules.ModuleProvider;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,31 +24,39 @@ public class RuntimeTest {
     @Mock
     Notifier notifier;
 
+    @Before
+    public void resetThreadLocalState() throws Throwable {
+        ModuleProvider.clearCache();
+    }
+
     @Test
     public void shouldExecuteTests() {
         final String expectedStack = "Error: Expected 'foo' to be 'bar'.\n" +
                 "  at <native function: BuiltinError> (org/dynjs/runtime/builtins/types/BuiltinError.java:0)\n" +
-                "  at <anonymous> (<eval>:114)\n" +
-                "  at <anonymous> (<eval>:1235)\n" +
-                "  at <anonymous> (<eval>:3)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:114)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1235)\n" +
+                "  at <anonymous> (org/jasmine/failingSpec.js:3)\n" +
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
-                "  at <anonymous> (<eval>:1064)\n" +
-                "  at <anonymous> (<eval>:2096)\n" +
-                "  at <anonymous> (<eval>:2049)\n" +
-                "  at <anonymous> (<eval>:2376)\n" +
-                "  at <anonymous> (<eval>:2096)\n" +
-                "  at <anonymous> (<eval>:2049)\n" +
-                "  at <anonymous> (<eval>:2521)\n" +
-                "  at <anonymous> (<eval>:2096)\n" +
-                "  at <anonymous> (<eval>:2049)\n" +
-                "  at <anonymous> (<eval>:2143)\n" +
-                "  at <anonymous> (<eval>:802)\n" +
-                "  at Object.fn (<eval>:50)\n" +
-                "  at Object.setTimeout (<eval>:10)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1064)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2376)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2521)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2143)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:802)\n" +
+                "  at Object.fn (jasmine-jvm/executor.js:50)\n" +
+                "  at Object.setTimeout (jasmine-jvm/executor.js:10)\n" +
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
-                "  at <anonymous> (<eval>:1730)\n" +
-                "  at Object.execute (<eval>:54)\n" +
-                "  at <eval> (<eval>:1)\n";
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1730)\n" +
+                "  at Object.execute (jasmine-jvm/executor.js:54)\n" +
+                "  at <native function: org.dynjs.runtime.modules.ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
+                "  at <native function: org.dynjs.runtime.builtins.Require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
+                "  at <eval> (<eval>:1)\n" +
+                "  at <eval> (null:0)\n";
 
         Runtime runtime = new Runtime(newArrayList("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js"));
 
