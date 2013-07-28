@@ -48,6 +48,10 @@ public class Main {
                 }
                 System.out.println(String.format("%s/%s passed.",
                         descriptions.size() - failures.keySet().size(), descriptions.size()));
+
+                if(failures.size() > 0){
+                    System.exit(1);
+                }
             }
         });
     }
