@@ -18,7 +18,7 @@ public class Runtime {
     }
 
     public void execute(Notifier notifier) {
-        Config config = new Config();
+        Config config = new Config(Thread.currentThread().getContextClassLoader());
         config.setGlobalObjectFactory(new GlobalObjectFactory() {
             GlobalObject global;
 
