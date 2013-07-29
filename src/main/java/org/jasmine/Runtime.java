@@ -13,12 +13,13 @@ import static com.google.common.collect.Sets.newTreeSet;
 public class Runtime {
     private final List<String> specs;
 
-    public Runtime(List<String> specs) {
+    public Runtime(Iterable<String> specs) {
         this.specs = newArrayList(newTreeSet(specs));
     }
 
     public void execute(Notifier notifier) {
         Config config = new Config(Thread.currentThread().getContextClassLoader());
+
         config.setGlobalObjectFactory(new GlobalObjectFactory() {
             GlobalObject global;
 

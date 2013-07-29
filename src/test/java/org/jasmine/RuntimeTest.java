@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Set;
+
 import static com.google.common.collect.Lists.newArrayList;
 import static org.jasmine.Failure.Stack.stack;
 import static org.jasmine.Failure.failure;
@@ -78,6 +80,19 @@ public class RuntimeTest {
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
+        inOrder.verify(notifier).pass(any(Identifier.class), anyString());
+        inOrder.verify(notifier).finished();
+    }
+
+    @Test
+    public void shouldRunTestsMatchedByPattern() {
+        Runtime runtime = new Runtime(new SpecScanner().findSpecs("src/test/javascript/**/*Spec.js"));
+
+        runtime.execute(notifier);
+
+        InOrder inOrder = Mockito.inOrder(notifier);
+        inOrder.verify(notifier).started();
+        inOrder.verify(notifier).fail(any(Identifier.class), anyString(), any(Set.class));
         inOrder.verify(notifier).pass(any(Identifier.class), anyString());
         inOrder.verify(notifier).finished();
     }
