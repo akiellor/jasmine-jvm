@@ -33,6 +33,7 @@ dependencies {
   compile 'org.dynjs:dynjs:0.1.2-SNAPSHOT'
   compile 'org.projectodd.rephract:rephract:1.0.1-SNAPSHOT'
   compile 'com.google.guava:guava:11.0.2'
+  compile 'args4j:args4j:2.0.25'
 
   testCompile 'org.javafunk.funk:funk-core:0.1.22'
   testCompile 'junit:junit-dep:4.11'
