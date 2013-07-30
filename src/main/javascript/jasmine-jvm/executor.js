@@ -1,19 +1,28 @@
 exports.executor = new org.jasmine.Executor({
     execute: function(specs, notifier){
+        var toRunnable = function(fn){
+          return new java.lang.Runnable({
+            run: function(){
+              try {
+                fn();
+              } catch (e) {
+                System.out.println(e);
+              }
+            }
+          });
+        }
         var futures = [];
         var scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
 
         global.setTimeout = function(fn, delay){
           var id = futures.length
-          var runnable = new java.lang.Runnable({ run: fn })
-          futures[id] = scheduler.schedule(runnable, delay, java.util.concurrent.TimeUnit.SECONDS)
+          futures[id] = scheduler.schedule(toRunnable(fn), delay, java.util.concurrent.TimeUnit.SECONDS)
           return id;
         }
 
         global.setInterval = function(fn, delay){
           var id = futures.length;
-          var runnable = new java.lang.Runnable({ run: fn })
-          futures[id] = scheduler.schedule(runnable, delay, delay, java.util.concurrent.TimeUnit.SECONDS)
+          futures[id] = scheduler.schedule(toRunnable(fn), delay, delay, java.util.concurrent.TimeUnit.SECONDS)
           return id;
         }
 

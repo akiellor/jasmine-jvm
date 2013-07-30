@@ -1,20 +1,28 @@
 package org.jasmine;
 
+import com.google.common.base.Optional;
+
+import static org.jasmine.Failure.Stack.stack;
+
 public class Failure {
     public static Failure failure(Identifier it, Stack stack){
-        return new Failure(it, stack);
+        return new Failure(it, Optional.fromNullable(stack));
+    }
+
+    public static Failure failure(Identifier it){
+        return new Failure(it, Optional.<Stack>absent());
     }
 
     private final Identifier it;
-    private final Stack stack;
+    private final Optional<Stack> stack;
 
-    public Failure(Identifier it, Stack stack) {
+    public Failure(Identifier it, Optional<Stack> stack) {
         this.it = it;
         this.stack = stack;
     }
 
     public String getStackString() {
-        return stack.stack;
+        return stack.or(stack("")).stack;
     }
 
     @Override

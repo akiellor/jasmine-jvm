@@ -50,11 +50,13 @@ public class RuntimeTest {
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:2143)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:802)\n" +
-                "  at Object.fn (jasmine-jvm/executor.js:50)\n" +
-                "  at Object.setTimeout (jasmine-jvm/executor.js:10)\n" +
+                "  at <anonymous> (jasmine-jvm/executor.js:59)\n" +
+                "  at Object.run (jasmine-jvm/executor.js:7)\n" +
+                "  at <anonymous> (jasmine-jvm/executor.js:4)\n" +
+                "  at Object.setTimeout (jasmine-jvm/executor.js:20)\n" +
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:1730)\n" +
-                "  at Object.execute (jasmine-jvm/executor.js:54)\n" +
+                "  at Object.execute (jasmine-jvm/executor.js:63)\n" +
                 "  at <native function: org.dynjs.runtime.modules.ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
                 "  at <native function: org.dynjs.runtime.builtins.Require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
                 "  at <eval> (<eval>:1)\n" +
@@ -85,6 +87,7 @@ public class RuntimeTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void shouldRunTestsMatchedByPattern() {
         Runtime runtime = new Runtime(new SpecScanner().findSpecs("src/test/javascript/**/*Spec.js"));
 

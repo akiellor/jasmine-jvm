@@ -16,8 +16,12 @@ exports.reporter = function(notifier){
                 notifier.pass(identifier, spec.description);
             }else{
                 var failures = spec.results().getItems().map(function(item){
-                    var stack = org.jasmine.Failure$Stack.stack(item.trace.stack);
-                    return org.jasmine.Failure.failure(identifier, stack);
+                    if(item.trace.stack){
+                        var stack = org.jasmine.Failure$Stack.stack(item.trace.stack);
+                        return org.jasmine.Failure.failure(identifier, stack);
+                    }else{
+                        return org.jasmine.Failure.failure(identifier);
+                    }
                 });
 
                 var builder = com.google.common.collect.ImmutableSet.builder();
