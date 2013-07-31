@@ -775,7 +775,7 @@ describe("jasmine.Matchers", function() {
         expect(match(TestClass.spyFunction).toHaveBeenCalledWith('a', 'b', 'c')).toPass();
       });
 
-      xit('should return false if it was not called with the expected args', function() {
+      it('should return false if it was not called with the expected args', function() {
         TestClass.spyFunction('a', 'b', 'c');
         var expected = match(TestClass.spyFunction);
         expect(expected.toHaveBeenCalledWith('c', 'b', 'a')).toFail();
@@ -797,7 +797,7 @@ describe("jasmine.Matchers", function() {
         expect(result.message).toContain(jasmine.pp(result.expected));
       });
 
-      xit('should allow matches across multiple calls', function() {
+      it('should allow matches across multiple calls', function() {
         TestClass.spyFunction('a', 'b', 'c');
         TestClass.spyFunction('d', 'e', 'f');
         var expected = match(TestClass.spyFunction);
@@ -820,7 +820,7 @@ describe("jasmine.Matchers", function() {
         expect(lastResult().message).toEqual("Expected spy My spy to have been called with [ 'a', 'b' ] but it was never called.");
       });
 
-      xit("should return a decent message when inverted", function() {
+      it("should return a decent message when inverted", function() {
         TestClass.spyFunction('a', 'b', 'c');
         TestClass.spyFunction('d', 'e', 'f');
         var expected = match(TestClass.spyFunction);
@@ -842,7 +842,7 @@ describe("jasmine.Matchers", function() {
           spec.spyOn(TestClass, 'someFunction');
         });
 
-        xit("should should handle the case of a spy", function() {
+        it("should should handle the case of a spy", function() {
           TestClass.someFunction('a', 'c');
           var matcher = match(TestClass.someFunction);
           matcher.toHaveBeenCalledWith('a', 'b');
