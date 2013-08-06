@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.debugging.MockitoDebuggerImpl;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Set;
@@ -35,27 +36,27 @@ public class RuntimeTest {
     public void shouldExecuteTests() {
         final String expectedStack = "Error: Expected 'foo' to be 'bar'.\n" +
                 "  at <native function: BuiltinError> (org/dynjs/runtime/builtins/types/BuiltinError.java:0)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:114)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1235)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:116)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1252)\n" +
                 "  at <anonymous> (org/jasmine/failingSpec.js:3)\n" +
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1064)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2376)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2521)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2096)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2049)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2143)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:802)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1075)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2118)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2071)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2398)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2118)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2071)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2543)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2118)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2071)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:2165)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:806)\n" +
                 "  at <anonymous> (jasmine-jvm/executor.js:59)\n" +
                 "  at Object.run (jasmine-jvm/executor.js:7)\n" +
                 "  at <anonymous> (jasmine-jvm/executor.js:4)\n" +
                 "  at Object.setTimeout (jasmine-jvm/executor.js:20)\n" +
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
-                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1730)\n" +
+                "  at <anonymous> (jasmine-1.3.1/jasmine.js:1750)\n" +
                 "  at Object.execute (jasmine-jvm/executor.js:63)\n" +
                 "  at <native function: org.dynjs.runtime.modules.ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
                 "  at <native function: org.dynjs.runtime.builtins.Require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
