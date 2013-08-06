@@ -76,7 +76,7 @@ subprojects {
                 }
 
                 pom.project {
-                    name "jasmine-$project.name"
+                    name project.name
                     packaging 'jar'
                     description 'A jasmine runner using the dynjs javascript runtime'
                     url 'http://github.com/akiellor/jasmine-jvm'
