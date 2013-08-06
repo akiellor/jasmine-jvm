@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.debugging.MockitoDebuggerImpl;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Set;
