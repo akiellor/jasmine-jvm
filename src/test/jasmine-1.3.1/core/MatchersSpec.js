@@ -806,7 +806,7 @@ describe("jasmine.Matchers", function() {
         expect(expected.toHaveBeenCalledWith('x', 'y', 'z')).toFail();
       });
 
-      xit("should return a decent message", function() {
+      it("should return a decent message", function() {
         TestClass.spyFunction('a', 'b', 'c');
         TestClass.spyFunction('d', 'e', 'f');
         var expected = match(TestClass.spyFunction);
