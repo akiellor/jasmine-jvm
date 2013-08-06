@@ -1,5 +1,9 @@
 apply plugin: 'release'
 
+release {
+    failOnSnapshotDependencies = false
+}
+
 def isReleaseVersion() {
     return !version.endsWith("SNAPSHOT")
 }
@@ -45,10 +49,6 @@ subprojects {
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
         classifier = 'sources'
-    }
-
-    release {
-        failOnSnapshotDependencies = false
     }
 
     artifacts {
