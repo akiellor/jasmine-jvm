@@ -12,6 +12,7 @@ import static com.google.common.collect.Sets.newTreeSet;
 
 public class Runtime {
     private final List<String> specs;
+    private final ClassLoader parentClassLoader;
     private final Config.CompileMode compileMode;
 
     public Runtime(Iterable<String> specs) {
@@ -19,12 +20,17 @@ public class Runtime {
     }
 
     public Runtime(Iterable<String> specs, Config.CompileMode compileMode) {
+        this(newArrayList(newTreeSet(specs)), compileMode, Thread.currentThread().getContextClassLoader());
+    }
+
+    public Runtime(Iterable<String> specs, Config.CompileMode compileMode, ClassLoader parentClassLoader) {
+        this.parentClassLoader = parentClassLoader;
         this.specs = newArrayList(newTreeSet(specs));
         this.compileMode = compileMode;
     }
 
     public void execute(Notifier notifier) {
-        Config config = new Config(Thread.currentThread().getContextClassLoader());
+        Config config = new Config(parentClassLoader);
         config.setCompileMode(this.compileMode);
 
         config.setGlobalObjectFactory(new GlobalObjectFactory() {
