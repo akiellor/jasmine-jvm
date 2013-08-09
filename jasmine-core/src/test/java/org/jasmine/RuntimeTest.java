@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.debugging.MockitoDebuggerImpl;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Set;
@@ -62,7 +63,7 @@ public class RuntimeTest {
                 "  at <eval> (<eval>:1)\n" +
                 "  at <eval> (null:0)\n";
 
-        Runtime runtime = new Runtime(newArrayList("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js"));
+        Runtime runtime = new Runtime.Builder().specs("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js").build();
 
         runtime.execute(notifier);
 
@@ -76,7 +77,7 @@ public class RuntimeTest {
 
     @Test
     public void shouldRunEachTestOnlyOnce() {
-        Runtime runtime = new Runtime(newArrayList("org/jasmine/fooSpec.js", "org/jasmine/fooSpec.js"));
+        Runtime runtime = new Runtime.Builder().specs("org/jasmine/fooSpec.js", "org/jasmine/fooSpec.js").build();
 
         runtime.execute(notifier);
 
@@ -89,10 +90,11 @@ public class RuntimeTest {
     @Test
     @SuppressWarnings("unchecked")
     public void shouldRunTestsMatchedByPattern() {
-        Runtime runtime = new Runtime(new SpecScanner().findSpecs("src/test/javascript/**/*Spec.js"));
+        Runtime runtime = new Runtime.Builder().scan("src/test/javascript/**/*Spec.js").build();
 
         runtime.execute(notifier);
 
+        new MockitoDebuggerImpl().printInvocations(notifier);
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
         inOrder.verify(notifier).fail(any(Identifier.class), anyString(), any(Set.class));
@@ -103,7 +105,7 @@ public class RuntimeTest {
     @Test
     @Ignore
     public void shouldRunTestsFast() {
-        Runtime runtime = new Runtime(newArrayList(repeat(newArrayList("org/jasmine/fooSpec.js"), 1000000)));
+        Runtime runtime = new Runtime.Builder().specs(repeat(newArrayList("org/jasmine/fooSpec.js"), 1000000)).build();
 
         runtime.execute(notifier);
     }

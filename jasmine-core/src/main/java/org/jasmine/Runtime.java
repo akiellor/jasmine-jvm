@@ -1,5 +1,6 @@
 package org.jasmine;
 
+import com.google.common.collect.Lists;
 import org.dynjs.Config;
 import org.dynjs.runtime.DynJS;
 import org.dynjs.runtime.GlobalObject;
@@ -15,15 +16,7 @@ public class Runtime {
     private final ClassLoader parentClassLoader;
     private final Config.CompileMode compileMode;
 
-    public Runtime(Iterable<String> specs) {
-        this(specs, Config.CompileMode.JIT);
-    }
-
-    public Runtime(Iterable<String> specs, Config.CompileMode compileMode) {
-        this(newArrayList(newTreeSet(specs)), compileMode, Thread.currentThread().getContextClassLoader());
-    }
-
-    public Runtime(Iterable<String> specs, Config.CompileMode compileMode, ClassLoader parentClassLoader) {
+    private Runtime(Iterable<String> specs, Config.CompileMode compileMode, ClassLoader parentClassLoader) {
         this.parentClassLoader = parentClassLoader;
         this.specs = newArrayList(newTreeSet(specs));
         this.compileMode = compileMode;
@@ -49,5 +42,55 @@ public class Runtime {
 
         Executor executor = (Executor) dynjs.evaluate("require('jasmine-jvm/executor').executor");
         executor.execute(specs, notifier);
+    }
+
+    public static class Builder{
+        private Iterable<String> specs = Lists.newArrayList();
+        private Config.CompileMode compileMode = Config.CompileMode.JIT;
+        private ClassLoader classLoader;
+
+        public Builder(){
+            this.specs = Lists.newArrayList();
+            this.compileMode = Config.CompileMode.JIT;
+            this.classLoader = Thread.currentThread().getContextClassLoader();
+        }
+
+        public Builder scan(String pattern){
+            this.specs = new SpecScanner().findSpecs(pattern);
+            return this;
+        }
+
+        public Builder specs(String... specs){
+            return specs(Lists.newArrayList(specs));
+        }
+
+        public Builder specs(Iterable<String> specs){
+            this.specs = Lists.newArrayList(specs);
+            return this;
+        }
+
+        public Builder noCompile(){
+            this.compileMode = Config.CompileMode.OFF;
+            return this;
+        }
+
+        public Builder forceCompile() {
+            this.compileMode = Config.CompileMode.FORCE;
+            return this;
+        }
+
+        public Builder jitCompile() {
+            this.compileMode = Config.CompileMode.JIT;
+            return this;
+        }
+
+        public Builder classLoader(ClassLoader classLoader){
+            this.classLoader = classLoader;
+            return this;
+        }
+
+        public Runtime build(){
+            return new Runtime(specs, compileMode, classLoader);
+        }
     }
 }
