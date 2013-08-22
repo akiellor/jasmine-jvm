@@ -17,9 +17,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.rephract>1.x.incremental.48</version.rephract>
+        <version.rephract>1.x.incremental.55</version.rephract>
         <version.jitescript>0.3.0</version.jitescript>
-        <version.aesh>0.36</version.aesh>
+        <version.aesh>0.38</version.aesh>
         <version.invokebinder>1.2</version.invokebinder>
     </properties>
 
@@ -323,8 +323,23 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.1.1</version>
+                <version>1.2.1</version>
                 <executions>
+                    <execution>
+                        <id>Jasmine Integration Tests</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.jasmine.cli.Main</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <argument>--pattern</argument>
+                                <argument>./src/test/javascript/**/*Spec.js</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>generate-executable</id>
                         <phase>package</phase>
@@ -353,27 +368,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>org.jasmine.cli.Main</mainClass>
-                    <classpathScope>test</classpathScope>
-                    <arguments>
-                        <argument>--pattern</argument>
-                        <argument>./src/test/javascript/**/*Spec.js</argument>
-                    </arguments>
-                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>
