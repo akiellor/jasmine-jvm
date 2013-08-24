@@ -7,11 +7,11 @@ public class Main {
     public static void main(String... args){
         Arguments arguments = Arguments.parse(args);
 
-        Runtime runtime = arguments.compileMode().apply(new Runtime.Builder()
-                .specs(arguments.specs()))
-                .build();
+        Runtime.Builder builder = new Runtime.Builder();
+        arguments.compileMode().apply(builder);
+        builder.specs(arguments.specs());
 
-        runtime.execute(new CliNotifier());
+        builder.build().execute(new CliNotifier());
     }
 
 }
