@@ -6,14 +6,22 @@ import org.jasmine.Failure;
 import org.jasmine.Identifier;
 import org.jasmine.Notifier;
 
+import java.io.PrintStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class CliNotifier implements Notifier {
-    private Multimap<Identifier, Failure> failures = HashMultimap.create();
-    private Map<Identifier, String> descriptions = new HashMap<>();
+    private final PrintStream out;
+    private final JVM jvm;
+    private final Multimap<Identifier, Failure> failures = HashMultimap.create();
+    private final Map<Identifier, String> descriptions = new HashMap<>();
+
+    public CliNotifier(PrintStream out, JVM jvm) {
+        this.out = out;
+        this.jvm = jvm;
+    }
 
     @Override
     public void started() {
@@ -22,32 +30,32 @@ public class CliNotifier implements Notifier {
     @Override
     public void pass(Identifier identifier, String description) {
         descriptions.put(identifier, description);
-        System.out.print(".");
+        out.print(".");
     }
 
     @Override
     public void fail(Identifier identifier, String description, Set<Failure> failures) {
         descriptions.put(identifier, description);
         this.failures.putAll(identifier, failures);
-        System.out.print("F");
+        out.print("F");
     }
 
     @Override
     public void finished() {
-        System.out.println();
-        System.out.println();
+        out.println();
+        out.println();
         for (Map.Entry<Identifier, Collection<Failure>> entry : failures.asMap().entrySet()) {
-            System.out.println(descriptions.get(entry.getKey()));
-            System.out.println();
+            out.println(descriptions.get(entry.getKey()));
+            out.println();
             for (Failure failure : entry.getValue()) {
-                System.out.println(failure.getStackString().replaceAll("^", "  ").replaceAll("\\n", "\n  "));
+                out.println(failure.getStackString().replaceAll("^", "  ").replaceAll("\\n", "\n  "));
             }
         }
-        System.out.println(String.format("%s/%s passed.",
+        out.println(String.format("%s/%s passed.",
                 descriptions.size() - failures.keySet().size(), descriptions.size()));
 
-        if (failures.size() > 0) {
-            System.exit(1);
+        if (!failures.isEmpty()) {
+           jvm.die();
         }
     }
 }
