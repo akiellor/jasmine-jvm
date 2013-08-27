@@ -72,7 +72,7 @@ describe("jasmine.pp", function () {
     expect(jasmine.pp(sampleValue)).toEqual("{ foo : 'hello', nested : <circular reference: Object> }");
   });
 
-  xit("should indicate getters on objects as such", function() {
+  it("should indicate getters on objects as such", function() {
     var sampleValue = {id: 1};
     if (sampleValue.__defineGetter__) {
       //not supported in IE!
