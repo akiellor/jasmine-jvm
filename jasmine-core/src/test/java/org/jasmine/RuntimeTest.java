@@ -35,7 +35,7 @@ public class RuntimeTest {
     @Test
     public void shouldExecuteTests() {
         final String expectedStack = "Error: Expected 'foo' to be 'bar'.\n" +
-                "  at <native function: BuiltinError> (org/dynjs/runtime/builtins/types/BuiltinError.java:0)\n" +
+                "  at <native function: Error> (org/dynjs/runtime/builtins/types/BuiltinError.java:0)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:116)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:1252)\n" +
                 "  at <anonymous> (org/jasmine/failingSpec.js:3)\n" +
@@ -58,8 +58,8 @@ public class RuntimeTest {
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:1750)\n" +
                 "  at Object.execute (jasmine-jvm/executor.js:63)\n" +
-                "  at <native function: org.dynjs.runtime.modules.ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
-                "  at <native function: org.dynjs.runtime.builtins.Require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
+                "  at <native function: ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
+                "  at <native function: require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
                 "  at <eval> (<eval>:1)\n" +
                 "  at <eval> (null:0)\n";
 
