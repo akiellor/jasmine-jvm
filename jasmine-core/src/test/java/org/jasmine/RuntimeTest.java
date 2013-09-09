@@ -94,7 +94,6 @@ public class RuntimeTest {
 
         runtime.execute(notifier);
 
-        new MockitoDebuggerImpl().printInvocations(notifier);
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
         inOrder.verify(notifier).fail(any(Identifier.class), anyString(), any(Set.class));
