@@ -40,6 +40,7 @@ public class Runtime {
         });
         DynJS dynjs = new DynJS(config);
 
+        dynjs.evaluate("require.addLoadPath('/')");
         Executor executor = (Executor) dynjs.evaluate("require('jasmine-jvm/executor').executor");
         executor.execute(specs, notifier);
     }

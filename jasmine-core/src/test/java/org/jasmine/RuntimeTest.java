@@ -1,8 +1,10 @@
 package org.jasmine;
 
 import org.dynjs.runtime.modules.ModuleProvider;
+import org.jasmine.testing.FileRule;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -11,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.debugging.MockitoDebuggerImpl;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.File;
 import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -31,6 +34,9 @@ public class RuntimeTest {
     public void resetThreadLocalState() throws Throwable {
         ModuleProvider.clearCache();
     }
+
+    @Rule
+    public FileRule files = new FileRule(new File("."));
 
     @Test
     public void shouldExecuteTests() {
@@ -84,6 +90,19 @@ public class RuntimeTest {
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
         inOrder.verify(notifier).pass(any(Identifier.class), anyString());
+        inOrder.verify(notifier).finished();
+    }
+
+    @Test
+    public void shouldRunFullyQualifiedSpecPaths() {
+        files.file("fooSpec.js");
+
+        Runtime runtime = new Runtime.Builder().specs(files.fullPath("fooSpec.js")).build();
+
+        runtime.execute(notifier);
+
+        InOrder inOrder = Mockito.inOrder(notifier);
+        inOrder.verify(notifier).started();
         inOrder.verify(notifier).finished();
     }
 
