@@ -1,0 +1,54 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+  flatDir {
+    def gradleIdeaProps = new Properties()
+    gradleIdeaProps.load(new FileInputStream("$projectDir/gradle-idea.properties"))
+
+    dirs gradleIdeaProps.get("installation.dir")
+  }
+}
+
+configurations{
+    provided
+}
+
+dependencies{
+    provided name: 'idea'
+    provided name: 'util'
+    provided name: 'openapi'
+    provided name: 'annotations'
+}
+
+sourceSets.main.compileClasspath += configurations.provided
+
+idea {
+    module {
+        iml {
+            withXml {
+                def module = it.asNode()
+                def children = new ArrayList(module.children())
+                children.each { module.remove(it) }
+
+                module.attributes().putAt('type', 'PLUGIN_MODULE')
+                module.attributes().putAt('version', '4')
+
+                module.appendNode('component', [
+                  'name': 'DevKit.ModuleBuildProperties',
+                  'url': 'file://$MODULE_DIR$/src/main/resources/META-INF/plugin.xml'
+                ])
+
+                def moduleRoot = module.appendNode('component', [
+                  'name': 'NewModuleRootManager',
+                  'inherit-compiler-output': true
+                ])
+
+                moduleRoot.appendNode('exclude-output')
+                moduleRoot.appendNode('content', [url: 'file://$MODULE_DIR$'])
+                  .appendNode('sourceFolder', [url: 'file://$MODULE_DIR$/src/main/java', isTestSource: false])
+                moduleRoot.appendNode('orderEntry', [type: 'jdk', jdkName: 'IDEA IC-129.161', jdkType: 'IDEA JDK'])
+            }
+        }
+    }
+}
