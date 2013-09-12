@@ -6,8 +6,7 @@ import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.application.ApplicationConfiguration;
 import com.intellij.execution.application.ApplicationConfigurationType;
 import com.intellij.execution.junit.RuntimeConfigurationProducer;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -16,7 +15,7 @@ import com.intellij.psi.util.ClassUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class JasmineRunConfigurationProducer extends RuntimeConfigurationProducer implements Cloneable {
-    private PsiFile myFile;
+    private PsiFile containingFile;
 
     public JasmineRunConfigurationProducer() {
         super(ApplicationConfigurationType.getInstance());
@@ -24,27 +23,30 @@ public class JasmineRunConfigurationProducer extends RuntimeConfigurationProduce
 
     @Override
     public PsiElement getSourceElement() {
-        return myFile;
+        return containingFile;
     }
 
     @Nullable
     @Override
-    protected RunnerAndConfigurationSettings createConfigurationByElement(Location location, ConfigurationContext context) {
-        PsiElement psiElement = location.getPsiElement();
-        myFile = psiElement.getContainingFile();
-        if(!myFile.getVirtualFile().getCanonicalPath().endsWith(".js")) { return null; }
+    protected RunnerAndConfigurationSettings createConfigurationByElement(Location location, final ConfigurationContext context) {
+        final PsiElement psiElement = context.getLocation().getPsiElement();
+        containingFile = psiElement.getContainingFile();
 
-        RunnerAndConfigurationSettings settings = cloneTemplateConfiguration(psiElement.getProject(), context);
-        ApplicationConfiguration configuration = (ApplicationConfiguration)settings.getConfiguration();
+        VirtualFile file = containingFile.getVirtualFile();
+        if (file == null) { return null; }
 
-        Module module = ModuleUtilCore.findModuleForPsiElement(psiElement);
-        if (module != null) {
-            configuration.setModule(module);
-        }
+        String canonicalPath = file.getCanonicalPath();
+        if (canonicalPath == null || !canonicalPath.endsWith(".js")) { return null; }
 
         PsiClass mainClass = ClassUtil.findPsiClass(PsiManager.getInstance(context.getProject()), "org.jasmine.cli.Main");
+        if (mainClass == null) { return null; }
+
+        RunnerAndConfigurationSettings settings = cloneTemplateConfiguration(context.getProject(), context);
+        ApplicationConfiguration configuration = (ApplicationConfiguration) settings.getConfiguration();
+        configuration.setModule(context.getModule());
         configuration.setMainClass(mainClass);
-        configuration.setProgramParameters(location.getVirtualFile().getCanonicalPath());
+        configuration.setProgramParameters(canonicalPath);
+        configuration.setName(file.getPresentableName());
         return settings;
     }
 
