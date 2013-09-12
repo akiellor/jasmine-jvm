@@ -46,7 +46,7 @@ public class JasmineRunConfigurationProducer extends RuntimeConfigurationProduce
         ApplicationConfiguration configuration = (ApplicationConfiguration) settings.getConfiguration();
         configuration.setModule(context.getModule());
         configuration.setMainClass(mainClass);
-        configuration.setProgramParameters(canonicalPath);
+        configuration.setProgramParameters("--compile-mode OFF " + canonicalPath);
         configuration.setName(file.getPresentableName());
         return settings;
     }
