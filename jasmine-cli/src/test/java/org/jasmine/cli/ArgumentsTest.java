@@ -1,5 +1,6 @@
 package org.jasmine.cli;
 
+import org.jasmine.testing.FileRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -15,54 +16,6 @@ import java.util.UUID;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class ArgumentsTest {
-    public static class FileRule implements TestRule {
-        private final File tmpDir;
-
-        public FileRule(File root) {
-            tmpDir = new File(root, "." + UUID.randomUUID().toString());
-        }
-
-        @Override
-        public Statement apply(final Statement base, Description description) {
-            return new Statement() {
-                @Override
-                public void evaluate() throws Throwable {
-                    tmpDir.mkdirs();
-                    base.evaluate();
-                    Files.walkFileTree(tmpDir.toPath(), new SimpleFileVisitor<Path>() {
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            Files.deleteIfExists(file);
-                            return FileVisitResult.CONTINUE;
-                        }
-
-                        @Override
-                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                            Files.deleteIfExists(dir);
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
-                }
-            };
-        }
-
-        public File file(String name) {
-            File file = new File(tmpDir, name);
-            try {
-                if (!file.exists() && !file.createNewFile()) {
-                    throw new RuntimeException("Could not create file: " + file);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return file;
-        }
-
-        public String path(String name) {
-            return new File(tmpDir, name).getPath();
-        }
-    }
-
     @Rule
     public FileRule files = new FileRule(new File("."));
 
@@ -120,5 +73,14 @@ public class ArgumentsTest {
         Arguments arguments = Arguments.parse(files.path("ASpec.js"));
 
         assertThat(arguments.specs()).containsOnly(files.path("ASpec.js"));
+    }
+
+    @Test
+    public void shouldLoadFullyQualifiedPaths() throws IOException {
+        files.file("ASpec.js");
+
+        Arguments arguments = Arguments.parse(files.fullPath("ASpec.js"));
+
+        assertThat(arguments.specs()).containsOnly(files.fullPath("ASpec.js"));
     }
 }

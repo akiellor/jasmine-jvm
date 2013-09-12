@@ -1,2 +1,2 @@
 rootProject.name = 'jasmine'
-include('jasmine-core', 'jasmine-cli')
+include('testing', 'jasmine-core', 'jasmine-cli')
