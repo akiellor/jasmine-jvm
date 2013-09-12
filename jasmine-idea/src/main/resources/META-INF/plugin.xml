@@ -2,11 +2,9 @@
     <id>org.jasmine</id>
     <name>Jasmine</name>
     <version>0.0.9</version>
-    <vendor email="akiellor@gmail.com" url="http://github.com/akiellor">YourCompany</vendor>
+    <vendor email="akiellor@gmail.com" url="http://github.com/akiellor">Andrew Kiellor</vendor>
 
     <description>A plugin to run Jasmine in IntelliJ under DynJS.</description>
-
-    <change-notes></change-notes>
 
     <idea-version since-build="107.105"/>
 
