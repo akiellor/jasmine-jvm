@@ -31,6 +31,7 @@ public class JasmineRunConfigurationProducer extends RuntimeConfigurationProduce
     protected RunnerAndConfigurationSettings createConfigurationByElement(Location location, final ConfigurationContext context) {
         final PsiElement psiElement = context.getLocation().getPsiElement();
         containingFile = psiElement.getContainingFile();
+        if (containingFile == null) { return null; }
 
         VirtualFile file = containingFile.getVirtualFile();
         if (file == null) { return null; }
