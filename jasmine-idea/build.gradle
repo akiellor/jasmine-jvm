@@ -8,6 +8,8 @@ repositories {
 
     dirs gradleIdeaProps.get("installation.dir")
   }
+
+  mavenCentral()
 }
 
 configurations{
@@ -15,6 +17,8 @@ configurations{
 }
 
 dependencies{
+    compile 'org.dynjs:dynjs:0.1.1'
+
     provided name: 'idea'
     provided name: 'util'
     provided name: 'openapi'
@@ -28,26 +32,41 @@ idea {
         iml {
             withXml {
                 def module = it.asNode()
-                def children = new ArrayList(module.children())
-                children.each { module.remove(it) }
 
                 module.attributes().putAt('type', 'PLUGIN_MODULE')
                 module.attributes().putAt('version', '4')
 
-                module.appendNode('component', [
-                  'name': 'DevKit.ModuleBuildProperties',
-                  'url': 'file://$MODULE_DIR$/src/main/resources/META-INF/plugin.xml'
-                ])
+                def devkit = module.breadthFirst().find { it.attributes()["name"] == 'DevKit.ModuleBuildProperties'}
+                if (devkit == null) {
+                    devkit = module.appendNode('component', ['name': 'DevKit.ModuleBuildProperties'])
+                }
+                devkit.attributes().putAt('url', 'file://$MODULE_DIR$/src/main/resources/META-INF/plugin.xml')
 
-                def moduleRoot = module.appendNode('component', [
-                  'name': 'NewModuleRootManager',
-                  'inherit-compiler-output': true
-                ])
+                def moduleRoot = module.breadthFirst().find { it.attributes()["name"] == 'NewModuleRootManager'}
+                if (moduleRoot == null) {
+                    moduleRoot = module.appendNode('component', ['name': 'NewModuleRootManager'])
+                }
+                moduleRoot.attributes().putAt('inherit-compiler-output', true)
 
-                moduleRoot.appendNode('exclude-output')
-                moduleRoot.appendNode('content', [url: 'file://$MODULE_DIR$'])
-                  .appendNode('sourceFolder', [url: 'file://$MODULE_DIR$/src/main/java', isTestSource: false])
-                moduleRoot.appendNode('orderEntry', [type: 'jdk', jdkName: 'IDEA IC-129.161', jdkType: 'IDEA JDK'])
+
+                def excludeOutput = moduleRoot.breadthFirst().find { it.name() == 'exclude-output'}
+                if (excludeOutput == null) {
+                    moduleRoot.appendNode('exclude-output')
+                }
+
+                def content = moduleRoot.breadthFirst().find { it.name() == 'content'}
+                if (content == null) {
+                    content = moduleRoot.appendNode('content');
+                }
+                content.attributes().putAt('url', 'file://$MODULE_DIR$')
+
+                def orderEntry = moduleRoot.breadthFirst().find { it.name() == 'orderEntry'}
+                if (orderEntry == null) {
+                    orderEntry = moduleRoot.appendNode('orderEntry');
+                }
+                orderEntry.attributes().putAt('type', 'jdk')
+                orderEntry.attributes().putAt('jdkName', 'IDEA IC-129.161')
+                orderEntry.attributes().putAt('jdkType', 'IDEA JDK')
             }
         }
     }
