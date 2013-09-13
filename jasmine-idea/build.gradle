@@ -10,6 +10,7 @@ repositories {
   }
 
   mavenCentral()
+  maven { url "https://repository-projectodd.forge.cloudbees.com/upstream" }
 }
 
 configurations{
@@ -17,7 +18,7 @@ configurations{
 }
 
 dependencies{
-    compile 'org.dynjs:dynjs:0.1.1'
+    compile 'org.dynjs:dynjs:0.1.2-SNAPSHOT'
 
     provided name: 'idea'
     provided name: 'util'
