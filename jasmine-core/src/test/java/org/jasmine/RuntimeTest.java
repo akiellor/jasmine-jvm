@@ -30,11 +30,6 @@ public class RuntimeTest {
     @Mock
     Notifier notifier;
 
-    @Before
-    public void resetThreadLocalState() throws Throwable {
-        ModuleProvider.clearCache();
-    }
-
     @Rule
     public FileRule files = new FileRule(new File("."));
 
@@ -64,14 +59,15 @@ public class RuntimeTest {
                 "  at <native function: Apply> (org/dynjs/runtime/builtins/types/function/prototype/Apply.java:0)\n" +
                 "  at <anonymous> (jasmine-1.3.1/jasmine.js:1750)\n" +
                 "  at Object.execute (jasmine-jvm/executor.js:63)\n" +
-                "  at <native function: ClasspathModuleProvider> (jasmine-jvm/executor.js:1)\n" +
-                "  at <native function: require> (org/dynjs/runtime/builtins/Require.java:0)\n" +
+                "  at <native function: require> (jasmine-jvm/executor.js:1)\n" +
                 "  at <eval> (<eval>:1)\n" +
                 "  at <eval> (null:0)\n";
 
         Runtime runtime = new Runtime.Builder().specs("org/jasmine/failingSpec.js", "org/jasmine/fooSpec.js").build();
 
         runtime.execute(notifier);
+
+        new MockitoDebuggerImpl().printInvocations(notifier);
 
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
