@@ -12,13 +12,8 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/groups/public"}
-        maven {
-            name 'Gradle Shadow'
-            url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
-        }
     }
     dependencies {
-        classpath 'org.gradle.plugins:shadow:0.7.4'
         classpath 'com.github.townsfolk:gradle-release:1.2'
     }
 }
@@ -26,7 +21,6 @@ buildscript {
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
-    apply plugin: 'shadow'
     apply plugin: 'maven'
     apply plugin: 'signing'
 
