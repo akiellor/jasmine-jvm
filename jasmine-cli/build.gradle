@@ -12,6 +12,7 @@ dependencies {
 }
 
 apply plugin: 'shadow'
+assemble.dependsOn "shadow"
 
 import org.gradle.api.artifacts.maven.MavenDeployment
 
