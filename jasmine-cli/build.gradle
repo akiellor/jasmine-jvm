@@ -40,6 +40,10 @@ sourceSets {
   }
 }
 
+artifacts {
+  archives shadow.shadowJar
+}
+
 task jasmine(type: JavaExec) {
   main 'org.jasmine.cli.Main'
   classpath test.classpath
