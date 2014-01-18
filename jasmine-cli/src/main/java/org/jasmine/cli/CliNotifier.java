@@ -30,6 +30,7 @@ public class CliNotifier implements Notifier {
     @Override
     public void pass(Identifier identifier, String description) {
         descriptions.put(identifier, description);
+        out.print(".");
     }
 
     @Override
