@@ -16,6 +16,13 @@ public class Arguments {
         }
     }
 
+    public static class OutputFormatEnumOptionHandler extends EnumOptionHandler<OutputFormat> {
+        public OutputFormatEnumOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super OutputFormat> setter) {
+            super(parser, option, setter, OutputFormat.class);
+        }
+    }
+
+
     public static Arguments parse(String... args) {
         Arguments arguments = new Arguments();
         CmdLineParser parser = new CmdLineParser(arguments);
@@ -33,6 +40,10 @@ public class Arguments {
     @Option(name = "--compile-mode", handler = CompileModeEnumOptionHandler.class)
     private CompileMode compileMode = CompileMode.JIT;
 
+    @Option(name = "--format", handler = OutputFormatEnumOptionHandler.class)
+    private OutputFormat format = OutputFormat.PROGRESS;
+
+
     @Argument
     private List<String> arguments = new ArrayList<String>();
 
@@ -46,5 +57,9 @@ public class Arguments {
 
     public CompileMode compileMode() {
         return compileMode;
+    }
+
+    public Formatter formatter() {
+        return format.formatter();
     }
 }

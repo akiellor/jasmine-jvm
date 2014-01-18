@@ -11,7 +11,7 @@ public class Main {
         arguments.compileMode().apply(builder);
         builder.specs(arguments.specs());
 
-        builder.build().execute(new CliNotifier(System.out, new JVM(), new ProgressFormatter()));
+        builder.build().execute(new CliNotifier(System.out, new JVM(), arguments.formatter()));
     }
 
 }

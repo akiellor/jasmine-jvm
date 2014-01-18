@@ -83,4 +83,25 @@ public class ArgumentsTest {
 
         assertThat(arguments.specs()).containsOnly(files.fullPath("ASpec.js"));
     }
+
+    @Test
+    public void shouldUseProgressFormatterByDefault() throws IOException {
+        Arguments arguments = Arguments.parse();
+
+        assertThat(arguments.formatter()).isInstanceOf(ProgressFormatter.class);
+    }
+
+    @Test
+    public void shouldUseDocumentationFormatter() throws IOException {
+        Arguments arguments = Arguments.parse("--format", "DOC");
+
+        assertThat(arguments.formatter()).isInstanceOf(DocumentationFormatter.class);
+    }
+
+    @Test
+    public void shouldUseProgressFormatter() throws IOException {
+        Arguments arguments = Arguments.parse("--format", "PROGRESS");
+
+        assertThat(arguments.formatter()).isInstanceOf(ProgressFormatter.class);
+    }
 }
