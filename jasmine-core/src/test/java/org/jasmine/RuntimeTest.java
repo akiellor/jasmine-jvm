@@ -67,13 +67,11 @@ public class RuntimeTest {
 
         runtime.execute(notifier);
 
-        new MockitoDebuggerImpl().printInvocations(notifier);
-
         InOrder inOrder = Mockito.inOrder(notifier);
         inOrder.verify(notifier).started();
         inOrder.verify(notifier).fail(
-                identifier(0, 0), "should be failing", setWith(failure(identifier(0, 0), stack(expectedStack))));
-        inOrder.verify(notifier).pass(identifier(1, 1), "should be foo");
+                identifier(0, 0), "failing should be failing.", setWith(failure(identifier(0, 0), stack(expectedStack))));
+        inOrder.verify(notifier).pass(identifier(1, 1), "foo should be foo.");
         inOrder.verify(notifier).finished();
     }
 
