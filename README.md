@@ -1,5 +1,5 @@
-Jasmine JVM
-===========
+[ABANDONED] Jasmine JVM
+=======================
 
 A command line interface to the Jasmine javascript testing framework.
 
